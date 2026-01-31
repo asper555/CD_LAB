@@ -5,7 +5,7 @@
     #include<ctype.h>
     #include "task1.h"
     int yylex();
-    void yyerror();
+    void yyerror(const char *s);
     extern FILE* yyin;
     tnode*root;
 
@@ -48,8 +48,8 @@ E   : E '+' E {$$= createTree(0,TYPE_INT,NULL,NODE_PLUS,$1,$3);}
     ;
 %%
 
-void yyerror(){
-    printf("Yashwanth there Is an error\n");
+void yyerror(const char *s) {
+    printf("Yashwanth there is an error: %s\n", s);
 }
 
 int main(int argc, char* argv[]){

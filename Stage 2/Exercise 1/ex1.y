@@ -4,7 +4,7 @@
     #include "ex1.h"
 
     int yylex(void);
-    void yyerror();
+    void yyerror(const char *s);
     extern FILE* yyin;
     tnode *root;
 %}
@@ -44,66 +44,30 @@ Program
     ;
 
 Slist
-    : Slist Stmt ';'
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_CONNECTOR, $1, $2);
-      }
-    | Stmt ';'
-      {
-          $$ = $1;
-      }
+    : Slist Stmt ';'{$$ = createTree(0, TYPE_INT, NULL, NODE_CONNECTOR, $1, $2);}
+    | Stmt ';'{$$ = $1;}
     ;
 
 Stmt
-    : READ '(' ID ')'
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_READ, $3, NULL);
-      }
-    | WRITE '(' E ')'
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_WRITE, $3, NULL);
-      }
-    | ID '=' E
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_ASSIGN, $1, $3);
-      }
+    : READ '(' ID ')'{$$ = createTree(0, TYPE_INT, NULL, NODE_READ, $3, NULL);}
+    | WRITE '(' E ')'{$$ = createTree(0, TYPE_INT, NULL, NODE_WRITE, $3, NULL);}
+    | ID '=' E{$$ = createTree(0, TYPE_INT, NULL, NODE_ASSIGN, $1, $3);}
     ;
 
 E
-    : E '+' E
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_PLUS, $1, $3);
-      }
-    | E '-' E
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_MINUS, $1, $3);
-      }
-    | E '*' E
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_MUL, $1, $3);
-      }
-    | E '/' E
-      {
-          $$ = createTree(0, TYPE_INT, NULL, NODE_DIV, $1, $3);
-      }
-    | '(' E ')'
-      {
-          $$ = $2;
-      }
-    | NUM
-      {
-          $$ = $1;
-      }
-    | ID
-      {
-          $$ = $1;
-      }
+    : E '+' E{$$ = createTree(0, TYPE_INT, NULL, NODE_PLUS, $1, $3);}
+    | E '-' E{$$ = createTree(0, TYPE_INT, NULL, NODE_MINUS, $1, $3);}
+    | E '*' E{$$ = createTree(0, TYPE_INT, NULL, NODE_MUL, $1, $3);}
+    | E '/' E{$$ = createTree(0, TYPE_INT, NULL, NODE_DIV, $1, $3);}
+    | '(' E ')'{$$ = $2;}
+    | NUM{$$ = $1;}
+    | ID{$$ = $1;}
     ;
 
 %%
 
-void yyerror() {
-    printf("Yashwanth there Is an error\n");
+void yyerror(const char *s) {
+    printf("Yashwanth there is an error: %s\n", s);
 }
 
 int main(int argc, char *argv[]) {
