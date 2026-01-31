@@ -15,4 +15,5 @@
 "("       { return '('; }
 ")"       { return ')'; }
 \n   {return '\n';}
+[ \t]+   ;  
 %%

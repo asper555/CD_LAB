@@ -4,7 +4,7 @@
 #include "expr.h"
 
 int yylex();
-void yyerror();
+void yyerror(const char *s); 
 
 tnode* root;
 %}
@@ -38,9 +38,10 @@ E : E '+' E { $$ = makeOperatorNode('+', $1, $3); }
 
 %%
 
-void yyerror() {
-    printf("Yashwanth there is an error: %s\n");
+void yyerror(const char *s) {
+    printf("Yashwanth there is an error: %s\n", s);
 }
+
 
 int main() {
     yyparse();
